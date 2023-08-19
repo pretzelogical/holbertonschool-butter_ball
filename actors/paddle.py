@@ -32,11 +32,9 @@ class Paddle():
             self.rect.x += self.moveSpeed * self.__game.deltaTime
         if keys[pygame.K_LEFT]:
             self.rect.x -= self.moveSpeed * self.__game.deltaTime
-        # Apply boundary constraints to prevent the paddle from moving off-screen horizontally
-        new_x = max(12, min(new_x, self.__game.scSize[12] - self.width))
-
-        # Update the paddle's horizontal position
-        self.rect.x = new_x    
+        if new_x = self.rect.x
+         # Apply boundary constraints to prevent the paddle from moving off-screen horizontally
+        new_x = max(0, min(new_x, self.__game.scSize[0] - self.width))
 
     def draw(self):
         pygame.draw.rect(self.__game.screen, self.color, self.rect)
