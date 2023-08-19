@@ -8,6 +8,15 @@ class Ball:
     color = pygame.Color('white')
 
     def __init__(self, game):
+        """ Ball that moves across the screen
+
+            Properties:
+                __game: the game object that manages the ball
+                size: the size of the ball
+                initPos: initial position of the ball
+                rect: rectangular representation of the ball
+                velocity: applied to x and y of the rect every frame
+        """
         self.__game = game
         self.size = game.scSize[0] / 24
         self.initPos = pygame.Vector2(
@@ -24,10 +33,28 @@ class Ball:
         if self.rect.colliderect(paddle.rect):
             self.paddleCollision(paddle)
 
+        self.screenCollision()
+
+    def screenCollision(self):
+        """ Checks all sides of the screen for collision and repositions
+        ball if it is outside of the horizontal screen boundry.
+        (it is not possible to push the ball out vertically using the paddle
+        so we do not handle it)
+        """
+
         if self.rect.x < 0 or self.rect.x > self.__game.scSize[0] - self.size:
             self.velocity.x *= -1
         if self.rect.y < 0 or self.rect.y > self.__game.scSize[1] - self.size:
             self.velocity.y *= -1
+
+        if self.rect.x < -4:
+            if self.__game.testing:
+                print('left x over')
+            self.rect.x = 0
+        if self.rect.x > 4 + (self.__game.scSize[0] - self.size):
+            if self.__game.testing:
+                print('right x over')
+            self.rect.x = self.__game.scSize[0] - self.size
 
     def paddleCollision(self, paddle):
         """ Checks the top left and right positions of the paddle and
