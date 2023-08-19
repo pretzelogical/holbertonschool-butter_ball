@@ -16,17 +16,17 @@ class Ball:
             self.initPos.x, self.initPos.y, self.size, self.size)
         self.velocity = pygame.Vector2(200, 200)
 
-    def updatePos(self):
+    def updatePos(self, paddle):
         """ Updates ball position  with velocity """
         self.rect.x += self.velocity.x * self.__game.deltaTime
         self.rect.y += self.velocity.y * self.__game.deltaTime
-        print(self.velocity.x)
+
+        if self.rect.colliderect(paddle.rect):
+            self.velocity.y *= -1
 
         if self.rect.x < 0 or self.rect.x > self.__game.scSize[0] - self.size:
-            print('ping!')
             self.velocity.x *= -1
         if self.rect.y < 0 or self.rect.y > self.__game.scSize[1] - self.size:
-            print('ping!')
             self.velocity.y *= -1
 
     def draw(self):

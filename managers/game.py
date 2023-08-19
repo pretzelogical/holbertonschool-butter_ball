@@ -48,15 +48,24 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.isRunning = False
             self.screen.fill(self.bg_color)
-            if self.testing is True:
-                # print(self.ball.rect.x, self.ball.rect.y)
-                self.drawTestPattern()
 
             self.paddle.updatePos()
             self.paddle.draw()
 
-            self.ball.updatePos()
+            self.ball.updatePos(self.paddle)
             self.ball.draw()
+
+            if self.testing is True:
+                print(self.ball.velocity)
+                pygame.draw.circle(self.screen, 'red',
+                                   (self.ball.rect.x, self.ball.rect.y), 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   (self.paddle.rect.x, self.paddle.rect.y), 3)
+                # pygame.draw.circle(self.screen, 'red',
+                #                    self.ball.rect.right, 3)
+                # pygame.draw.circle(self.screen, 'red',
+                #                    self.paddle.rect.left, 3)
+                self.drawTestPattern()
 
             self.deltaTime = self.deltaTick()
             self.nextFrame()
