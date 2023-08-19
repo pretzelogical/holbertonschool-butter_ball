@@ -2,6 +2,7 @@
 import pygame
 from sys import argv
 from actors.paddle import Paddle
+from actors.ball import Ball
 """ Manages game initialization, screen, clock, main game loop """
 
 
@@ -37,6 +38,7 @@ class Game():
             self.testing = False
 
         self.paddle = Paddle(self)
+        self.ball = Ball(self)
 
     def play(self) -> None:
         """ Loops while self.isRunning is True """
@@ -47,10 +49,14 @@ class Game():
                     self.isRunning = False
             self.screen.fill(self.bg_color)
             if self.testing is True:
+                # print(self.ball.rect.x, self.ball.rect.y)
                 self.drawTestPattern()
 
             self.paddle.updatePos()
             self.paddle.draw()
+
+            self.ball.updatePos()
+            self.ball.draw()
 
             self.deltaTime = self.deltaTick()
             self.nextFrame()
