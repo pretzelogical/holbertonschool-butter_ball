@@ -17,17 +17,57 @@ class Ball:
         self.velocity = pygame.Vector2(200, 200)
 
     def updatePos(self, paddle):
-        """ Updates ball position  with velocity """
+        """ Updates ball position  with velocity collision"""
         self.rect.x += self.velocity.x * self.__game.deltaTime
         self.rect.y += self.velocity.y * self.__game.deltaTime
 
         if self.rect.colliderect(paddle.rect):
-            self.velocity.y *= -1
+            self.paddleCollision(paddle)
 
         if self.rect.x < 0 or self.rect.x > self.__game.scSize[0] - self.size:
             self.velocity.x *= -1
         if self.rect.y < 0 or self.rect.y > self.__game.scSize[1] - self.size:
             self.velocity.y *= -1
+
+    def paddleCollision(self, paddle):
+        """ Checks the top left and right positions of the paddle and
+        bottom left right positions of the ball giving a default state
+        if no side is detected so the ball will never be stuck inside 
+        the paddle
+        """
+        detected = False
+        # Ball hits paddle on top
+        if abs(self.rect.midbottom[1] - paddle.rect.midtop[1]) < 8:
+            if self.__game.testing:
+                print('tophit')
+            self.velocity.y *= -1
+            self.rect.bottom = paddle.rect.top - 4
+            detected = True
+        # Left side of paddle hits right side of ball
+        if abs(self.rect.midright[0] - paddle.rect.midleft[0]) < 8:
+            if self.__game.testing:
+                print('lefthit')
+            self.velocity.x *= -1
+            if not detected:
+                self.velocity.y *= -1
+            self.rect.right = paddle.rect.left - 15
+            detected = True
+        # Right side of paddle hits left side of ball
+        if abs(self.rect.midleft[0] - paddle.rect.midright[0]) < 8:
+            if self.__game.testing:
+                print('righthit')
+            self.velocity.x *= -1
+            if not detected:
+                self.velocity.y *= -1
+            self.rect.x = paddle.rect.midright[0]
+            self.rect.left = paddle.rect.right + 15
+            detected = True
+        if not detected:
+            if self.__game.testing:
+                print('not detected / skimmed / it\'s a feature')
+            self.velocity.y *= -1
+            self.rect.y -= abs(self.rect.midbottom[1] -
+                               paddle.rect.midtop[1])
 
     def draw(self):
         pygame.draw.rect(self.__game.screen, self.color, self.rect)
