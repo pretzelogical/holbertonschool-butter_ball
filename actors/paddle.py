@@ -32,6 +32,6 @@ class Paddle():
             self.rect.x += self.moveSpeed * self.__game.deltaTime
         if keys[pygame.K_LEFT]:
             self.rect.x -= self.moveSpeed * self.__game.deltaTime
-        new_y = max(0, min(new_y, self.__game.scSize[0] - self.width))
+        rect.x = max(0, min(rect.x, self.__game.scSize[0] - self.width))
     def draw(self):
         pygame.draw.rect(self.__game.screen, self.color, self.rect)
