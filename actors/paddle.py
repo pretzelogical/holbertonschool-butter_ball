@@ -25,6 +25,8 @@ class Paddle():
         self.moveSpeed = 350
         self.rect = pygame.Rect(self.initPos.x, self.initPos.y,
                                 self.width, self.height)
+        self.image = pygame.image.load('butter.png')  # Load the image here
+        self.image = pygame.transform.scale(self.image, (int(self.width), int(self.height)))
 
     def updatePos(self):
         keys = self.__game.getKeys()
@@ -36,3 +38,4 @@ class Paddle():
     
     def draw(self):
         pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        self.__game.screen.blit(self.image, self.rect.topleft)  # Draw the image
