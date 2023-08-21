@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import pygame
-from sys import argv
 from actors.paddle import Paddle
 from actors.ball import Ball
 from actors.brick import Brick
@@ -41,7 +40,6 @@ class Game():
         self.paddle = Paddle(self)
         self.ball = Ball(self)
         self.bricks = Brick.makeBrickArray(self, 8)
-        print(self.scHalf[0] / 4, self.scHalf[1] / 4)
 
     def play(self) -> None:
         """ Loops while self.isRunning is True """
