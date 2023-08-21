@@ -16,6 +16,7 @@ class Ball:
                 initPos: initial position of the ball
                 rect: rectangular representation of the ball
                 velocity: applied to x and y of the rect every frame
+                isHeld: if the ball is being held by the paddle
         """
         self.__game = game
         self.size = game.scSize[0] / 24
@@ -27,7 +28,8 @@ class Ball:
         self.isHeld = True
 
     def updatePos(self, paddle):
-        """ Updates ball position  with velocity collision"""
+        """ Updates ball position with velocity and collision unless it is held
+        then position it on the top of the paddle to be launched"""
         if self.isHeld:
             self.rect.y = paddle.rect.y - self.size - (self.size / 4)
             self.rect.x = paddle.rect.x + self.size

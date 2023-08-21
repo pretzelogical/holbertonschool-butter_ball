@@ -17,6 +17,7 @@ class Paddle():
     color = pygame.Color('white')
 
     def __init__(self, game) -> None:
+        """ Creates paddle and assigns private game variable """
         self.__game = game
         self.width = game.scSize[0] / 8
         self.height = game.scSize[1] / 16
@@ -27,6 +28,7 @@ class Paddle():
                                 self.width, self.height)
 
     def updatePos(self):
+        """ Updates the position with the keys """
         keys = self.__game.getKeys()
         if keys[pygame.K_RIGHT]:
             self.rect.x += self.moveSpeed * self.__game.deltaTime
@@ -36,4 +38,5 @@ class Paddle():
             0, min(self.rect.x, self.__game.scSize[0] - self.width))
 
     def draw(self):
+        """ Draws the paddle """
         pygame.draw.rect(self.__game.screen, self.color, self.rect)
