@@ -6,18 +6,6 @@ from actors.paddle import Paddle
 
 
 class Game():
-    def play(self) -> None:
-        while self.isRunning:
-            # ... (existing code)
-
-            self.paddle.updatePos()
-            self.paddle.draw()  # Draw the paddle image
-
-            self.deltaTime = self.deltaTick()
-            self.nextFrame()
-
-
-class Game():
     """ Manages game initialization, screen, clock 
 
         Properties:
