@@ -25,10 +25,12 @@ class Game():
         self.screen = pygame.display.set_mode(resolution)
         self.clock = pygame.time.Clock()
         self.scSize = resolution
+        self.font = pygame.font.Font(None, 36)
         self.scHalf = (
             self.scSize[0] / 2, self.scSize[1] / 2)
         self.isRunning = True
         self.deltaTime = 0
+        self.lives = 3
 
         if 'testing' in kwargs:
             if kwargs['testing'] is True:
@@ -59,6 +61,9 @@ class Game():
             for brick in self.bricks:
                 brick.draw()
 
+            self.screen.blit(self.font.render(
+                str(self.lives), True, 'white'), (self.scHalf[0], self.scHalf[1] / 6))
+
             if self.testing is True:
                 # print(self.ball.velocity)
                 pygame.draw.circle(self.screen, 'red',
@@ -86,6 +91,13 @@ class Game():
     def deltaTick(self) -> float:
         """ advances the frame and returns the delta time """
         return self.clock.tick(60) / 1000.0
+
+    def roundOver(self):
+        """ Called whenever the ball goes out of play """
+        pygame.time.wait(1000)
+        self.ball.velocity = self.ball.initVel
+        self.ball.isHeld = True
+        self.lives -= 1
 
     def drawTestPattern(self) -> None:
         """ Draws two white lines down the vertical and horizontal axis to 
