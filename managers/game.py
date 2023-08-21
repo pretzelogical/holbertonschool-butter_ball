@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import pygame
-from sys import argv
 from actors.paddle import Paddle
+from actors.ball import Ball
+from actors.brick import Brick
 """ Manages game initialization, screen, clock, main game loop """
 
 
@@ -37,6 +38,8 @@ class Game():
             self.testing = False
 
         self.paddle = Paddle(self)
+        self.ball = Ball(self)
+        self.bricks = Brick.makeBrickArray(self, 8)
 
     def play(self) -> None:
         """ Loops while self.isRunning is True """
@@ -46,11 +49,36 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.isRunning = False
             self.screen.fill(self.bg_color)
-            if self.testing is True:
-                self.drawTestPattern()
+
+            self.ball.updatePos(self.paddle)
+            self.ball.draw()
 
             self.paddle.updatePos()
             self.paddle.draw()
+
+            for brick in self.bricks:
+                brick.draw()
+
+            if self.testing is True:
+                # print(self.ball.velocity)
+                pygame.draw.circle(self.screen, 'red',
+                                   (self.ball.rect.x, self.ball.rect.y), 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   (self.paddle.rect.x, self.paddle.rect.y), 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   self.ball.rect.midbottom, 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   self.paddle.rect.midtop, 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   self.ball.rect.midright, 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   self.paddle.rect.midleft, 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   self.ball.rect.midleft, 3)
+                pygame.draw.circle(self.screen, 'red',
+                                   self.paddle.rect.midright, 3)
+                # print(self.ball.rect.midbottom[1])
+                self.drawTestPattern()
 
             self.deltaTime = self.deltaTick()
             self.nextFrame()
