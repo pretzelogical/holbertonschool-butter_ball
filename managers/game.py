@@ -31,6 +31,8 @@ class Game():
         self.isRunning = True
         self.deltaTime = 0
         self.lives = 3
+        self.rows = 3
+        pygame.display.set_caption('Butter ball')
 
         if 'testing' in kwargs:
             if kwargs['testing'] is True:
@@ -41,7 +43,7 @@ class Game():
 
         self.paddle = Paddle(self)
         self.ball = Ball(self)
-        self.bricks = Brick.makeBrickArray(self, 8)
+        self.bricks = Brick.makeBrickArray(self, self.rows)
 
     def play(self) -> None:
         """ Loops while self.isRunning is True """
@@ -83,10 +85,16 @@ class Game():
                 pygame.draw.circle(self.screen, 'red',
                                    self.paddle.rect.midright, 3)
                 # print(self.ball.rect.midbottom[1])
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_n]:
+                    self.bricks = []
                 self.drawTestPattern()
 
             self.deltaTime = self.deltaTick()
             self.nextFrame()
+
+            if len(self.bricks) == 0:
+                self.roundNext()
 
             if self.lives == 'Game over!':
                 pygame.time.wait(3000)
@@ -104,6 +112,17 @@ class Game():
         self.lives -= 1
         if self.lives == 0:
             self.lives = 'Game over!'
+
+    def roundNext(self):
+        """ Starts a new round """
+        pygame.time.wait(3000)
+        self.rows += 1
+        self.lives += 1
+        self.bricks = Brick.makeBrickArray(self, self.rows)
+        self.ball.velocity.x = abs(self.ball.velocity.x) + 50
+        self.ball.velocity.y = abs(self.ball.velocity.y) + 50
+        self.paddle.moveSpeed += 50
+        self.ball.isHeld = True
 
     def drawTestPattern(self) -> None:
         """ Draws two white lines down the vertical and horizontal axis to 

@@ -53,8 +53,6 @@ class Ball:
     def screenCollision(self):
         """ Checks all sides of the screen for collision and repositions
         ball if it is outside of the horizontal screen boundry.
-        (it is not possible to push the ball out vertically using the paddle
-        so we do not handle it)
         """
 
         if self.rect.x < 0 or self.rect.x > self.__game.scSize[0] - self.size:
@@ -73,7 +71,10 @@ class Ball:
         if self.rect.x > 4 + (self.__game.scSize[0] - self.size):
             if self.__game.testing:
                 print('right x over')
-            self.rect.x = self.__game.scSize[0] - self.size
+        if self.rect.y < -4:
+            if self.__game.testing:
+                print('top over')
+            self.rect.y = 0
 
     def brickCollision(self, brickId):
         """ Bounces off a brick and removes that brick """
