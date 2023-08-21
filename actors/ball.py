@@ -15,6 +15,7 @@ class Ball:
                 size: the size of the ball
                 initPos: initial position of the ball
                 rect: rectangular representation of the ball
+                initVel: inital velocity of the ball
                 velocity: applied to x and y of the rect every frame
                 isHeld: if the ball is being held by the paddle
         """
@@ -24,7 +25,8 @@ class Ball:
             game.scHalf[0] - (self.size / 2), game.scHalf[1] - (self.size / 2))
         self.rect = pygame.Rect(
             self.initPos.x, self.initPos.y, self.size, self.size)
-        self.velocity = pygame.Vector2(200, -200)
+        self.initVel = pygame.Vector2(200, 200)
+        self.velocity = self.initVel
         self.isHeld = True
 
     def updatePos(self, paddle):
@@ -46,7 +48,8 @@ class Ball:
         # go through bricks at the side
         brickCollide = pygame.Rect.collidelist(self.rect, self.__game.bricks)
         if brickCollide != -1:
-            print(brickCollide)
+            if self.__game.testing:
+                print(f"ball collided with brick # {brickCollide}")
             del self.__game.bricks[brickCollide]
             self.velocity.y *= -1
 
@@ -61,10 +64,14 @@ class Ball:
 
         if self.rect.x < 0 or self.rect.x > self.__game.scSize[0] - self.size:
             self.velocity.x *= -1
-        if self.rect.y < 0 or self.rect.y > self.__game.scSize[1] - self.size:
+        if self.rect.y < 0:
             self.velocity.y *= -1
             self.velocity.x *= -1
 
+        if self.rect.midbottom[1] > self.__game.scSize[1]:
+            if self.__game.testing:
+                print('ballout')
+            self.__game.roundOver()
         if self.rect.x < -4:
             if self.__game.testing:
                 print('left x over')
@@ -109,7 +116,7 @@ class Ball:
             detected = True
         if not detected:
             if self.__game.testing:
-                print('not detected / skimmed / it\'s a feature')
+                print('not detected / skimmed / it\'s a feature!')
             self.velocity.y *= -1
             self.rect.y -= abs(self.rect.midbottom[1] -
                                paddle.rect.midtop[1])
