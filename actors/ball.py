@@ -42,6 +42,14 @@ class Ball:
         if self.rect.colliderect(paddle.rect):
             self.paddleCollision(paddle)
 
+        # TODO: Create a more robust brick collision system as ball can
+        # go through bricks at the side
+        brickCollide = pygame.Rect.collidelist(self.rect, self.__game.bricks)
+        if brickCollide != -1:
+            print(brickCollide)
+            del self.__game.bricks[brickCollide]
+            self.velocity.y *= -1
+
         self.screenCollision()
 
     def screenCollision(self):
@@ -55,6 +63,7 @@ class Ball:
             self.velocity.x *= -1
         if self.rect.y < 0 or self.rect.y > self.__game.scSize[1] - self.size:
             self.velocity.y *= -1
+            self.velocity.x *= -1
 
         if self.rect.x < -4:
             if self.__game.testing:
