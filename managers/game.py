@@ -88,6 +88,10 @@ class Game():
             self.deltaTime = self.deltaTick()
             self.nextFrame()
 
+            if self.lives == 'Game over!':
+                pygame.time.wait(3000)
+                self.isRunning = False
+
     def deltaTick(self) -> float:
         """ advances the frame and returns the delta time """
         return self.clock.tick(60) / 1000.0
@@ -98,6 +102,8 @@ class Game():
         self.ball.velocity = self.ball.initVel
         self.ball.isHeld = True
         self.lives -= 1
+        if self.lives == 0:
+            self.lives = 'Game over!'
 
     def drawTestPattern(self) -> None:
         """ Draws two white lines down the vertical and horizontal axis to 
