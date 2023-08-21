@@ -23,10 +23,17 @@ class Ball:
             game.scHalf[0] - (self.size / 2), game.scHalf[1] - (self.size / 2))
         self.rect = pygame.Rect(
             self.initPos.x, self.initPos.y, self.size, self.size)
-        self.velocity = pygame.Vector2(200, 200)
+        self.velocity = pygame.Vector2(200, -200)
+        self.isHeld = True
 
     def updatePos(self, paddle):
         """ Updates ball position  with velocity collision"""
+        if self.isHeld:
+            self.rect.y = paddle.rect.y - self.size - (self.size / 4)
+            self.rect.x = paddle.rect.x + self.size
+            if self.__game.getKeys()[pygame.K_SPACE]:
+                self.isHeld = False
+            return
         self.rect.x += self.velocity.x * self.__game.deltaTime
         self.rect.y += self.velocity.y * self.__game.deltaTime
 
