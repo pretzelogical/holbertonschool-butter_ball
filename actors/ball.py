@@ -27,7 +27,6 @@ class Ball:
         self.velocity = pygame.Vector2(200, -200)
         self.isHeld = True
 
-
         self.image = pygame.image.load('img/butter5.0.png')
         self.image = pygame.transform.scale(self.image, (int(self.size), int(self.size)))
 

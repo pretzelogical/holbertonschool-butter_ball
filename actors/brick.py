@@ -14,9 +14,16 @@ class Brick:
         self.height = game.scSize[1] / 30
         self.rect = pygame.Rect(pos[0], pos[1], self.width, self.height)
 
+        self.width = 100
+        self.height = 110
+        self.image = pygame.image.load('img/pancakebrick.png')
+        self.image = pygame.transform.scale(self.image, (int(self.width), int(self.height)))
+
+
     def draw(self):
         """ Draws the brick """
-        pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        #pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        self.__game.screen.blit(self.image, self.rect.topleft)
 
     @staticmethod
     def makeBrickArray(game, rows):
