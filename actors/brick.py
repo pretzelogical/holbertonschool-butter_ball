@@ -16,7 +16,7 @@ class Brick:
 
         self.width = 100
         self.height = 110
-        self.image = pygame.image.load('img/pancakebrick.png')
+        self.image = pygame.image.load('img/brick2,0.png')
         self.image = pygame.transform.scale(self.image, (int(self.width), int(self.height)))
 
 
