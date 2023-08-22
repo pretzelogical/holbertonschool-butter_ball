@@ -10,13 +10,18 @@ class Brick:
     def __init__(self, game, pos: tuple) -> None:
         """ Creates brick and assigns private game variable """
         self.__game = game
-        self.width = game.scSize[0] / 14
-        self.height = game.scSize[1] / 30
+        self.width = 100
+        self.height = 110
         self.rect = pygame.Rect(pos[0], pos[1], self.width, self.height)
+
+        self.image = pygame.image.load('img/pancakebrick.png')
+        self.image = pygame.transform.scale(
+            self.image, (int(self.width), int(self.height)))
 
     def draw(self):
         """ Draws the brick """
-        pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        # pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        self.__game.screen.blit(self.image, self.rect.topleft)
 
     @staticmethod
     def makeBrickArray(game, rows):
@@ -33,7 +38,6 @@ class Brick:
             if (i - 1) % 8 == 0:
                 gapSpace = gap
                 vertical += game.scHalf[1] / 8
-
             if i == 1 or (i - 1) % 8 == 0:
                 bricks.append(
                     Brick(game, (leftMost, vertical)))

@@ -34,6 +34,9 @@ class Game():
         self.rows = 3
         pygame.display.set_caption('Butter ball')
 
+        self.background = pygame.image.load('img/pancakebg2.0.jpg')
+        self.background = pygame.transform.scale(self.background, resolution)
+
         if 'testing' in kwargs:
             if kwargs['testing'] is True:
                 self.testing = kwargs['testing']
@@ -53,6 +56,7 @@ class Game():
                 if event.type == pygame.QUIT:
                     self.isRunning = False
             self.screen.fill(self.bg_color)
+            self.screen.blit(self.background, (0, 0))
 
             self.ball.updatePos(self.paddle)
             self.ball.draw()

@@ -14,6 +14,7 @@ class Paddle():
             moveSpeed: multiplied against deltatime to get movement
             rect: rectanglular representation of the paddle
     """
+
     color = pygame.Color('white')
 
     def __init__(self, game) -> None:
@@ -22,10 +23,14 @@ class Paddle():
         self.width = game.scSize[0] / 8
         self.height = game.scSize[1] / 16
         self.initPos = pygame.Vector2(
-            game.scHalf[0] - (self.width / 2), game.scHalf[1] + (game.scHalf[1] * 0.85))
+            game.scHalf[0] - (self.width / 5), game.scHalf[1] + (game.scHalf[1] * 0.85))
         self.moveSpeed = 350
         self.rect = pygame.Rect(self.initPos.x, self.initPos.y,
                                 self.width, self.height)
+
+        self.image = pygame.image.load('img/butter.png')
+        self.image = pygame.transform.scale(
+            self.image, (int(self.width), int(self.height)))
 
     def updatePos(self):
         """ Updates the position with the keys """
@@ -38,5 +43,4 @@ class Paddle():
             0, min(self.rect.x, self.__game.scSize[0] - self.width))
 
     def draw(self):
-        """ Draws the paddle """
-        pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        self.__game.screen.blit(self.image, self.rect.topleft)
