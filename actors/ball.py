@@ -27,6 +27,10 @@ class Ball:
         self.velocity = pygame.Vector2(200, -200)
         self.isHeld = True
 
+
+        self.image = pygame.image.load('img/butter5.0.png')
+        self.image = pygame.transform.scale(self.image, (int(self.size), int(self.size)))
+
     def updatePos(self, paddle):
         """ Updates ball position with velocity and collision unless it is held
         then position it on the top of the paddle to be launched"""
@@ -36,8 +40,9 @@ class Ball:
             if self.__game.getKeys()[pygame.K_SPACE]:
                 self.isHeld = False
             return
-        self.rect.x += self.velocity.x * self.__game.deltaTime
-        self.rect.y += self.velocity.y * self.__game.deltaTime
+        else:
+            self.rect.x += self.velocity.x * self.__game.deltaTime
+            self.rect.y += self.velocity.y * self.__game.deltaTime
 
         if self.rect.colliderect(paddle.rect):
             self.paddleCollision(paddle)
@@ -106,4 +111,5 @@ class Ball:
                                paddle.rect.midtop[1])
 
     def draw(self):
-        pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        #pygame.draw.rect(self.__game.screen, self.color, self.rect)
+        self.__game.screen.blit(self.image, self.rect.topleft)
