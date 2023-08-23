@@ -34,7 +34,8 @@ class Game():
         self.rows = 3
         pygame.display.set_caption('Butter ball')
 
-        self.background = pygame.image.load('img/pancakebg2.0.jpg')
+        self.background = pygame.image.load('img/dinerbg.jpg')
+        #self.background = pygame.image.load('img/pancakebg2.0.jpg')
         self.background = pygame.transform.scale(self.background, resolution)
 
         if 'testing' in kwargs:
