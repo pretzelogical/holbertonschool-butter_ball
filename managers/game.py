@@ -30,7 +30,7 @@ class Game():
         self.isRunning = True
         self.deltaTime = 0
 
-        self.background = pygame.image.load('img/pancakebg2.0.jpg')
+        self.background = pygame.image.load('img/bgdiner.jpg')
         self.background = pygame.transform.scale(self.background, resolution)
 
 
